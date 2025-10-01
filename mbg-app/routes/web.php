@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BahanBakuController;
+use App\Http\Controllers\PermintaanController;
 
 Route::get('/', function () {
     return redirect()->route('login'); // langsung ke  halaman login kalau buka root

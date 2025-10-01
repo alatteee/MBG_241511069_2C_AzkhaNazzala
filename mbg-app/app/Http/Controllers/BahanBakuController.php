@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BahanBaku;
 use Illuminate\Http\Request;
+use App\Models\BahanBaku;
 
 class BahanBakuController extends Controller
 {
@@ -21,16 +21,24 @@ class BahanBakuController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
-            'kategori' => 'required',
+            'nama' => 'required|string|max:120',
+            'kategori' => 'required|string|max:60',
             'jumlah' => 'required|integer|min:0',
-            'satuan' => 'required',
+            'satuan' => 'required|string|max:20',
             'tanggal_masuk' => 'required|date',
-            'tanggal_kadaluarsa' => 'required|date',
+            'tanggal_kadaluarsa' => 'required|date|after_or_equal:tanggal_masuk',
         ]);
 
-        BahanBaku::create($request->all());
+        BahanBaku::create([
+            'nama' => $request->nama,
+            'kategori' => $request->kategori,
+            'jumlah' => $request->jumlah,
+            'satuan' => $request->satuan,
+            'tanggal_masuk' => $request->tanggal_masuk,
+            'tanggal_kadaluarsa' => $request->tanggal_kadaluarsa,
+            'status' => 'tersedia', // default status awal
+        ]);
 
-        return redirect()->route('bahan.index')->with('success', 'Bahan berhasil ditambahkan');
+        return redirect()->route('bahan.index')->with('success', 'Bahan baru berhasil ditambahkan!');
     }
 }
