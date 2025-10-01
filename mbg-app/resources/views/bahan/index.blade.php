@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="bg-gray-100 min-h-screen p-6 rounded-2xl">
-        <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
+        <div class="max-w-6xl mx-auto bg-white p-6 rounded shadow">
             <h1 class="text-2xl font-bold mb-4">Daftar Bahan Baku</h1>
 
-            <a href="{{ route('bahan.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded">Tambah Bahan</a>
+            <a href="{{ route('bahan.create') }}" class="px-4 py-2 bg-[#176B87] text-white rounded">Tambah Bahan</a>
 
             <table class="w-full mt-4 border">
                 <thead>
