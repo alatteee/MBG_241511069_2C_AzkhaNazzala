@@ -10,6 +10,10 @@ class BahanBakuController extends Controller
     public function index()
     {
         $bahan = BahanBaku::all();
+        // update status otomatis
+        foreach ($bahan as $item) {
+            $item->updateStatus();
+        }
         return view('bahan.index', compact('bahan'));
     }
 
