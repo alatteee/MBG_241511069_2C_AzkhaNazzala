@@ -126,7 +126,7 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/app.js') }}"></script>
+
     <script>
         const dropdownBtn = document.getElementById("adminUserMenu");
         const dropdown = document.getElementById("adminDropdown");
@@ -143,6 +143,7 @@
             document.getElementById("logoutModal").classList.add("hidden");
         }
     </script>
+    <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 

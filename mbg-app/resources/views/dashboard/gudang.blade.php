@@ -5,16 +5,39 @@
 
 @section('content')
     <div class="bg-gray-100 min-h-screen p-6 rounded-2xl">
-        <h2 class="text-xl font-semibold mb-4">Welcome back, {{ $user->name }} 👋</h2>
+        <div class="p-6">
+            <h1 class="text-2xl font-bold mb-6">Dashboard Gudang</h1>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-white rounded-xl p-6 shadow">
-                <p class="text-gray-500">Total Bahan Baku</p>
-                <p class="text-2xl font-bold text-indigo-600">{{ $totalBahan ?? 0 }}</p>
-            </div>
-            <div class="bg-white rounded-xl p-6 shadow">
-                <p class="text-gray-500">Permintaan Pending</p>
-                <p class="text-2xl font-bold text-yellow-600">{{ $permintaanPending ?? 0 }}</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                {{-- Total Bahan --}}
+                <div class="p-4 bg-white rounded-lg shadow text-center">
+                    <p class="text-gray-600">Total Bahan Baku</p>
+                    <p class="text-3xl font-bold text-indigo-600">{{ $totalBahan }}</p>
+                </div>
+
+                {{-- Permintaan Pending --}}
+                <div class="p-4 bg-white rounded-lg shadow text-center">
+                    <p class="text-gray-600">Permintaan Pending</p>
+                    <p class="text-3xl font-bold text-amber-600">{{ $permintaanPending }}</p>
+                </div>
+
+                {{-- Bahan Kadaluarsa --}}
+                <div class="p-4 bg-white rounded-lg shadow text-center">
+                    <p class="text-gray-600">Bahan Kadaluarsa</p>
+                    <p class="text-3xl font-bold text-red-600">{{ $bahanKadaluarsa }}</p>
+                </div>
+
+                {{-- Bahan Hampir Kadaluarsa --}}
+                <div class="p-4 bg-white rounded-lg shadow text-center">
+                    <p class="text-gray-600">Hampir Kadaluarsa</p>
+                    <p class="text-3xl font-bold text-yellow-500">{{ $bahanHampirKadaluarsa }}</p>
+                </div>
+
+                {{-- Bahan Habis --}}
+                <div class="p-4 bg-white rounded-lg shadow text-center">
+                    <p class="text-gray-600">Bahan Habis</p>
+                    <p class="text-3xl font-bold text-gray-500">{{ $bahanHabis }}</p>
+                </div>
             </div>
         </div>
     </div>

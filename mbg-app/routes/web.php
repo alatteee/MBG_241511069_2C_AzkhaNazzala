@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BahanBakuController;
 use App\Http\Controllers\PermintaanController;
+use App\Http\Controllers\DashboardGudangController;
 
 Route::get('/', function () {
     return redirect()->route('login'); // langsung ke  halaman login kalau buka root
@@ -15,7 +16,8 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard/gudang', [AuthController::class, 'gudangDashboard'])->name('dashboard.gudang');
+    Route::get('/dashboard/gudang', [DashboardGudangController::class, 'index'])
+    ->name('dashboard.gudang');
     Route::get('/dashboard/dapur', [AuthController::class, 'dapurDashboard'])->name('dashboard.dapur');
 
     Route::resource('bahan', BahanBakuController::class);

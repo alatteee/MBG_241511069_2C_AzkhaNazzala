@@ -50,6 +50,7 @@
                                     Edit
                                 </button>
 
+
                                 <button type="button"
                                     class="btn-delete px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
                                     data-id="{{ $item->id }}" data-nama="{{ $item->nama }}"

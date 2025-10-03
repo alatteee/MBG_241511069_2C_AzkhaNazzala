@@ -40,14 +40,18 @@
                                     @endforeach
                                 </ul>
                             </td>
-                            <td class="border px-4 py-2">
+                            <td class="border px-4 py-2 text-center">
                                 @if ($item->status == 'menunggu')
                                     <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded">Menunggu</span>
-                                @elseif($item->status == 'disetujui')
+                                @elseif ($item->status == 'disetujui')
                                     <span class="px-2 py-1 bg-green-100 text-green-700 rounded">Disetujui</span>
-                                @else
-                                    <span class="px-2 py-1 bg-red-100 text-red-700 rounded">Ditolak</span>
-                                    <p class="text-xs text-gray-500">Alasan: {{ $item->alasan }}</p>
+                                @elseif ($item->status == 'ditolak')
+                                    <div class="flex flex-col items-center">
+                                        <span class="px-2 py-1 bg-red-100 text-red-700 rounded mb-1">Ditolak</span>
+                                        <small class="text-xs text-gray-600">
+                                            <strong>Alasan:</strong> {{ $item->alasan ?? '-' }}
+                                        </small>
+                                    </div>
                                 @endif
                             </td>
                             <td class="border px-4 py-2 text-center">
@@ -55,8 +59,10 @@
                                     <form action="{{ route('admin.permintaan.approve', $item->id) }}" method="POST"
                                         class="inline-block">
                                         @csrf
-                                        <button type="submit"
-                                            class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">Setujui</button>
+                                        <button type="button" onclick="openApproveModal({{ $item->id }})"
+                                            class="px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                                            Setujui
+                                        </button>
                                     </form>
 
                                     <button onclick="openRejectModal({{ $item->id }})"
@@ -84,6 +90,31 @@
                     <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Tolak</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal Konfirmasi Setujui -->
+    <div id="approveModal" tabindex="-1"
+        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
+            <div class="p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                    Konfirmasi Persetujuan
+                </h3>
+                <p class="text-gray-600 mb-6">
+                    Apakah Anda yakin ingin <strong class="text-green-600">menyetujui</strong> permintaan ini?
+                </p>
+                <div class="flex justify-end space-x-3">
+                    <form id="approveForm" method="POST">
+                        @csrf
+                        <div class="flex justify-end gap-2">
+                            <button type="button" onclick="closeApproveModal()"
+                                class="px-5 py-2 bg-gray-200 text-gray-800 rounded">Batal</button>
+                            <button type="submit" class="px-5 py-2 bg-green-600 text-white rounded">Setujui</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
