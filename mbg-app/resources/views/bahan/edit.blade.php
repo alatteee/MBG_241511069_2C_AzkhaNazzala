@@ -1,29 +1,54 @@
-@extends('layouts.app')
+<!-- Modal Edit Bahan -->
+<div id="editModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 w-[500px]">
+        <h2 class="text-lg font-semibold mb-4">Edit Bahan Baku</h2>
 
-@section('title', 'Edit Stok Bahan')
-@section('page-title', 'Edit Stok Bahan')
+        <form id="editForm" method="POST">
+            @csrf
+            @method('PUT')
 
-@section('content')
-<div class="max-w-2xl mx-auto bg-white p-6 rounded shadow">
-    <h2 class="text-xl font-bold mb-4">Update Stok: {{ $bahan->nama }}</h2>
+            <input type="hidden" name="id" id="editId">
 
-    <form action="{{ route('bahan.update', $bahan->id) }}" method="POST">
-        @csrf
-        @method('PUT')
+            <div class="mb-4">
+                <label class="block text-sm font-medium">Nama Bahan</label>
+                <input type="text" name="nama" id="editNama" class="w-full border rounded px-3 py-2" required>
+            </div>
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium">Jumlah Stok</label>
-            <input type="number" name="jumlah" value="{{ $bahan->jumlah }}" min="0"
-                   class="w-full border rounded px-3 py-2" required>
-            @error('jumlah')
-                <span class="text-red-600 text-sm">{{ $message }}</span>
-            @enderror
-        </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium">Kategori</label>
+                <input type="text" name="kategori" id="editKategori" class="w-full border rounded px-3 py-2"
+                    required>
+            </div>
 
-        <button type="submit"
-            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-            Simpan Perubahan
-        </button>
-    </form>
+            <div class="mb-4">
+                <label class="block text-sm font-medium">Jumlah Stok</label>
+                <input type="number" name="jumlah" id="editJumlah" class="w-full border rounded px-3 py-2" required>
+                <span id="editJumlahError" class="text-red-500 text-sm mt-1 hidden"></span>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium">Satuan</label>
+                <input type="text" name="satuan" id="editSatuan" class="w-full border rounded px-3 py-2" required>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium">Tanggal Masuk</label>
+                <input type="date" name="tanggal_masuk" id="editMasuk" class="w-full border rounded px-3 py-2"
+                    required>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium">Tanggal Kadaluarsa</label>
+                <input type="date" name="tanggal_kadaluarsa" id="editKadaluarsa"
+                    class="w-full border rounded px-3 py-2" required>
+            </div>
+
+            <div class="flex justify-end space-x-2">
+                <button type="button" onclick="closeEditModal()"
+                    class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Batal</button>
+                <button type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Simpan</button>
+            </div>
+        </form>
+    </div>
 </div>
-@endsection

@@ -41,8 +41,12 @@
                                 @endif
                             </td>
                             <td class="border px-4 py-2 text-center">
-                                <button class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
-                                    onclick="openEditModal({{ $item->id }}, '{{ $item->nama }}', {{ $item->jumlah }})">
+                                <button type="button"
+                                    class="btn-edit px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+                                    data-id="{{ $item->id }}" data-nama="{{ $item->nama }}"
+                                    data-kategori="{{ $item->kategori }}" data-jumlah="{{ $item->jumlah }}"
+                                    data-satuan="{{ $item->satuan }}" data-masuk="{{ $item->tanggal_masuk }}"
+                                    data-kadaluarsa="{{ $item->tanggal_kadaluarsa }}">
                                     Edit
                                 </button>
                             </td>
@@ -50,39 +54,8 @@
                     @endforeach
                 </tbody>
             </table>
-            <!-- Modal Edit Stok -->
-            <div id="editModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
-                <div class="bg-white rounded-lg p-6 w-96">
-                    <h2 class="text-lg font-semibold mb-4">Update Stok Bahan</h2>
-
-                    <form id="editForm" method="POST">
-                        @csrf
-                        @method('PUT')
-
-                        <input type="hidden" name="id" id="editId">
-
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium">Nama Bahan</label>
-                            <input type="text" id="editNama" class="w-full border rounded px-3 py-2 bg-gray-100"
-                                readonly>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium">Jumlah Stok</label>
-                            <input type="number" name="jumlah" id="editJumlah" min="0"
-                                class="w-full border rounded px-3 py-2" required>
-                        </div>
-
-                        <div class="flex justify-end space-x-2">
-                            <button type="button" onclick="closeEditModal()"
-                                class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Batal</button>
-                            <button type="submit"
-                                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Simpan</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
+            {{-- Panggil modal dari file edit.blade --}}
+            @include('bahan.edit')
             <script src="{{ asset('js/app.js') }}"></script>
         </div>
 
