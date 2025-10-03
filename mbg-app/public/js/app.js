@@ -100,4 +100,59 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+    // ===== Modal Hapus Bahan =====
+    document.querySelectorAll(".btn-delete").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const id = btn.dataset.id;
+        const nama = btn.dataset.nama;
+        const status = btn.dataset.status;
+
+        if (status !== "kadaluarsa") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Tidak Bisa Dihapus',
+                text: `Bahan "${nama}" tidak dapat dihapus karena statusnya = ${status}`,
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
+
+        Swal.fire({
+            title: 'Konfirmasi Hapus',
+            html: `Apakah Anda yakin ingin menghapus <b>${nama}</b>?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // bikin form delete otomatis
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/bahan/${id}`;
+
+                const csrf = document.createElement('input');
+                csrf.type = 'hidden';
+                csrf.name = '_token';
+                csrf.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                const method = document.createElement('input');
+                method.type = 'hidden';
+                method.name = '_method';
+                method.value = 'DELETE';
+
+                form.appendChild(csrf);
+                form.appendChild(method);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    });
+});
+
+
+
 });

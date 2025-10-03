@@ -65,6 +65,22 @@ class BahanBakuController extends Controller
 
         return redirect()->route('bahan.index')->with('success', 'Stok bahan berhasil diperbarui!');
     }
+    
+    public function destroy($id)
+    {
+        $bahan = BahanBaku::findOrFail($id);
+
+        if ($bahan->status !== 'kadaluarsa') {
+            return redirect()->route('bahan.index')
+                ->with('error', 'Bahan tidak bisa dihapus karena statusnya bukan Kadaluarsa.');
+        }
+
+        $bahan->delete();
+
+        return redirect()->route('bahan.index')
+            ->with('success', 'Bahan berhasil dihapus.');
+    }
+
 
 
 }

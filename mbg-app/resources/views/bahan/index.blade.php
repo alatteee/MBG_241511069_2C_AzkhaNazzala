@@ -40,7 +40,7 @@
                                     <span class="px-2 py-1 bg-green-100 text-green-700 rounded">Tersedia</span>
                                 @endif
                             </td>
-                            <td class="border px-4 py-2 text-center">
+                            <td class="border px-4 py-2 text-center space-x-2">
                                 <button type="button"
                                     class="btn-edit px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
                                     data-id="{{ $item->id }}" data-nama="{{ $item->nama }}"
@@ -49,12 +49,20 @@
                                     data-kadaluarsa="{{ $item->tanggal_kadaluarsa }}">
                                     Edit
                                 </button>
+
+                                <button type="button"
+                                    class="btn-delete px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                                    data-id="{{ $item->id }}" data-nama="{{ $item->nama }}"
+                                    data-status="{{ $item->status }}">
+                                    Hapus
+                                </button>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
             {{-- Panggil modal dari file edit.blade --}}
+            @include('bahan.delete')
             @include('bahan.edit')
             <script src="{{ asset('js/app.js') }}"></script>
         </div>

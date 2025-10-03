@@ -35,5 +35,4 @@ class BahanBaku extends Model
 
         $this->save();
     }
-
 }
