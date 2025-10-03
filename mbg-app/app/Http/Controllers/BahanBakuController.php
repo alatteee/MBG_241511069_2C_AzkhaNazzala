@@ -45,4 +45,26 @@ class BahanBakuController extends Controller
 
         return redirect()->route('bahan.index')->with('success', 'Bahan baru berhasil ditambahkan!');
     }
+    public function edit($id)
+    {
+        $bahan = BahanBaku::findOrFail($id);
+        return view('bahan.edit', compact('bahan'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'jumlah' => 'required|integer|min:0', // ❌ tidak boleh < 0
+        ]);
+
+        $bahan = BahanBaku::findOrFail($id);
+        $bahan->jumlah = $request->jumlah;
+        $bahan->save();
+
+        // update status otomatis
+        $bahan->updateStatus();
+
+        return redirect()->route('bahan.index')->with('success', 'Stok bahan berhasil diperbarui!');
+    }
+
 }

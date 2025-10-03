@@ -17,6 +17,7 @@
                         <th class="px-4 py-2">Tanggal Masuk</th>
                         <th class="px-4 py-2">Tanggal Kadaluarsa</th>
                         <th class="px-4 py-2">Status</th>
+                        <th class="px-4 py-2">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,6 +40,13 @@
                                     <span class="px-2 py-1 bg-green-100 text-green-700 rounded">Tersedia</span>
                                 @endif
                             </td>
+                            <td class="border px-4 py-2 text-center">
+                                <a href="{{ route('bahan.edit', $item->id) }}"
+                                    class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">
+                                    Edit
+                                </a>
+                            </td>
+
                         </tr>
                     @endforeach
                 </tbody>

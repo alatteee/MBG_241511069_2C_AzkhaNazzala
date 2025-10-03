@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    // ✅ Form login
+    //Form login
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
-    // ✅ Proses login
+    //Proses login
     public function login(Request $request)
     {
         // Validasi input
