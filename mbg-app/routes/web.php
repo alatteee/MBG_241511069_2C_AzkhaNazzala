@@ -23,5 +23,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/permintaan/create', [PermintaanController::class, 'create'])->name('permintaan.create');
     Route::post('/permintaan', [PermintaanController::class, 'store'])->name('permintaan.store');
     Route::get('/permintaan', [PermintaanController::class, 'index'])->name('permintaan.index');
+
+    // Admin Kelola Permintaan
+    Route::get('/admin/permintaan', [PermintaanController::class, 'indexAdmin'])->name('admin.permintaan.index');
+    Route::post('/admin/permintaan/{id}/approve', [PermintaanController::class, 'approve'])->name('admin.permintaan.approve');
+    Route::post('/admin/permintaan/{id}/reject', [PermintaanController::class, 'reject'])->name('admin.permintaan.reject');
+
 });
 

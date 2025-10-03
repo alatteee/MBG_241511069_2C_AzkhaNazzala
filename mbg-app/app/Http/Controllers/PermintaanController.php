@@ -61,4 +61,50 @@ class PermintaanController extends Controller
         return redirect()->route('permintaan.index')
             ->with('success', 'Permintaan berhasil dibuat dan menunggu persetujuan.');
     }
+
+    public function indexAdmin()
+    {
+        $permintaan = Permintaan::with('details.bahan', 'pemohon')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('admin.permintaan.index', compact('permintaan'));
+    }
+
+
+    public function approve($id)
+    {
+        $permintaan = Permintaan::with('details.bahan')->findOrFail($id);
+
+        foreach ($permintaan->details as $detail) {
+            $bahan = $detail->bahan;
+            $bahan->jumlah -= $detail->jumlah_diminta;
+
+            if ($bahan->jumlah <= 0) {
+                $bahan->jumlah = 0;
+                $bahan->status = 'habis';
+            }
+            $bahan->save();
+        }
+
+        $permintaan->status = 'disetujui';
+        $permintaan->save();
+
+        return redirect()->back()->with('success', 'Permintaan disetujui dan stok diperbarui.');
+    }
+
+    public function reject(Request $request, $id)
+    {
+        $request->validate([
+            'alasan' => 'required|string|max:255'
+        ]);
+
+        $permintaan = Permintaan::findOrFail($id);
+        $permintaan->status = 'ditolak';
+        $permintaan->alasan = $request->alasan;
+        $permintaan->save();
+
+        return redirect()->back()->with('success', 'Permintaan ditolak dengan alasan.');
+    }
+
 }

@@ -29,9 +29,7 @@
                 @if (auth()->user()->role === 'gudang')
                     <a href="{{ route('dashboard.gudang') }}"
                         class="flex items-center px-4 py-3 rounded-full transition shadow-sm
-                        {{ request()->routeIs('dashboard.gudang')
-                            ? 'bg-[#176B87] text-white shadow-md'
-                            : 'text-gray-600 hover:bg-gray-100' }}">
+                        {{ request()->routeIs('dashboard.gudang') ? 'bg-[#176B87] text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
                         <i class="fa-solid fa-house mr-3"></i> Dashboard
                     </a>
                     <a href="{{ route('bahan.index') }}"
@@ -39,9 +37,9 @@
                         {{ request()->routeIs('bahan.*') ? 'bg-[#176B87] text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
                         <i class="fa-solid fa-box mr-3"></i> Kelola Bahan
                     </a>
-                    <a href="{{ route('permintaan.index') }}"
+                    <a href="{{ route('admin.permintaan.index') }}"
                         class="flex items-center px-4 py-3 rounded-full transition shadow-sm
-                        {{ request()->routeIs('permintaan.*') ? 'bg-[#176B87] text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
+                        {{ request()->routeIs('admin.permintaan.*') ? 'bg-[#176B87] text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
                         <i class="fa-solid fa-list-check mr-3"></i> Permintaan Dapur
                     </a>
                 @endif
@@ -50,9 +48,7 @@
                 @if (auth()->user()->role === 'dapur')
                     <a href="{{ route('dashboard.dapur') }}"
                         class="flex items-center px-4 py-3 rounded-full transition shadow-sm
-                        {{ request()->routeIs('dashboard.dapur')
-                            ? 'bg-[#176B87] text-white shadow-md'
-                            : 'text-gray-600 hover:bg-gray-100' }}">
+                        {{ request()->routeIs('dashboard.dapur') ? 'bg-[#176B87] text-white shadow-md' : 'text-gray-600 hover:bg-gray-100' }}">
                         <i class="fa-solid fa-house mr-3"></i> Dashboard
                     </a>
                     <a href="{{ route('permintaan.index') }}"
@@ -61,6 +57,7 @@
                         <i class="fa-solid fa-cart-plus mr-3"></i> Permintaan Bahan
                     </a>
                 @endif
+
             </nav>
         </aside>
 
