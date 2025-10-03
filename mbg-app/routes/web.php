@@ -20,5 +20,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('bahan', BahanBakuController::class);
     Route::resource('permintaan', PermintaanController::class);
+    Route::get('/permintaan/create', [PermintaanController::class, 'create'])->name('permintaan.create');
+    Route::post('/permintaan', [PermintaanController::class, 'store'])->name('permintaan.store');
+    Route::get('/permintaan', [PermintaanController::class, 'index'])->name('permintaan.index');
 });
 

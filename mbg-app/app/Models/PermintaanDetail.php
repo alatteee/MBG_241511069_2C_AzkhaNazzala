@@ -6,11 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class PermintaanDetail extends Model
 {
-    
+    public $timestamps = true;
     protected $table = 'permintaan_detail';
-    public $timestamps = false;
+    protected $fillable = [
+        'permintaan_id',
+        'bahan_id',
+        'jumlah_diminta',
+    ];
 
-    public function bahan() {
+    public function permintaan()
+    {
+        return $this->belongsTo(Permintaan::class);
+    }
+
+    public function bahan()
+    {
         return $this->belongsTo(BahanBaku::class, 'bahan_id');
     }
 }

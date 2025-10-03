@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     // ===== Validasi Login =====
     const loginForm = document.getElementById("loginForm");
+
     if (loginForm) {
         loginForm.addEventListener("submit", function (e) {
             let valid = true;
@@ -10,20 +11,27 @@ document.addEventListener("DOMContentLoaded", function () {
             const emailError = document.getElementById("emailError");
             const passwordError = document.getElementById("passwordError");
 
+            // reset error
             emailError?.classList.add("hidden");
             passwordError?.classList.add("hidden");
 
+            // cek email
             if (!emailInput.value.trim()) {
                 emailError.textContent = "Email tidak boleh kosong";
                 emailError.classList.remove("hidden");
                 valid = false;
             }
+
+            // cek password
             if (!passwordInput.value.trim()) {
                 passwordError.textContent = "Password tidak boleh kosong";
                 passwordError.classList.remove("hidden");
                 valid = false;
             }
-            if (!valid) e.preventDefault();
+
+            if (!valid) {
+                e.preventDefault();
+            }
         });
     }
 
@@ -32,56 +40,52 @@ document.addEventListener("DOMContentLoaded", function () {
     logoutForms.forEach(form => {
         form.addEventListener("submit", function (e) {
             e.preventDefault();
-            if (confirm("Yakin ingin logout?")) form.submit();
+            if (confirm("Yakin ingin logout?")) {
+                form.submit();
+            }
         });
     });
 
     // ===== Edit Modal Bahan =====
-    const modal          = document.getElementById('editModal');
-    const form           = document.getElementById('editForm');
-    const editId         = document.getElementById('editId');
-    const editNama       = document.getElementById('editNama');
-    const editKategori   = document.getElementById('editKategori');
-    const editJumlah     = document.getElementById('editJumlah');
-    const editSatuan     = document.getElementById('editSatuan');
-    const editMasuk      = document.getElementById('editMasuk');
-    const editKadaluarsa = document.getElementById('editKadaluarsa');
-    const editJumlahError= document.getElementById('editJumlahError');
+    const editModal = document.getElementById('editModal');
+    const editForm = document.getElementById('editForm');
+    const editId = document.getElementById('editId');
+    const editNama = document.getElementById('editNama');
+    const editKategori = document.getElementById('editKategori');
+    const editJumlah = document.getElementById('editJumlah');
+    const editSatuan = document.getElementById('editSatuan');
+    const editMasuk = document.getElementById('editTanggalMasuk');
+    const editKadaluarsa = document.getElementById('editTanggalKadaluarsa');
+    const editJumlahError = document.getElementById('editJumlahError');
 
-    const toYMD = (v) => (v ?? '').toString().slice(0, 10);
+    // buka modal edit
+    window.openEditModal = function(data) {
+        editModal.classList.remove('hidden');
+        editModal.classList.add('flex');
 
-    // attach listener ke semua tombol Edit
-    document.querySelectorAll(".btn-edit").forEach(btn => {
-        btn.addEventListener("click", () => {
-            modal.classList.remove("hidden");
-            modal.classList.add("flex");
+        editId.value = data.id;
+        editNama.value = data.nama;
+        editKategori.value = data.kategori;
+        editJumlah.value = data.jumlah;
+        editSatuan.value = data.satuan;
+        editMasuk.value = data.tanggal_masuk;
+        editKadaluarsa.value = data.tanggal_kadaluarsa;
 
-            editId.value         = btn.dataset.id;
-            editNama.value       = btn.dataset.nama;
-            editKategori.value   = btn.dataset.kategori;
-            editJumlah.value     = btn.dataset.jumlah;
-            editSatuan.value     = btn.dataset.satuan;
-            editMasuk.value      = toYMD(btn.dataset.masuk);
-            editKadaluarsa.value = toYMD(btn.dataset.kadaluarsa);
+        editForm.action = `/bahan/${data.id}`;
+    }
 
-            editJumlahError?.classList.add("hidden");
-            editJumlah?.classList.remove("border-red-500");
+    // tutup modal edit
+    window.closeEditModal = function() {
+        editModal.classList.add('hidden');
+    }
 
-            form.action = `/bahan/${btn.dataset.id}`;
-        });
-    });
+    // validasi stok di modal edit
+    if (editForm) {
+        editForm.addEventListener("submit", function(e) {
+            editJumlahError?.classList.add('hidden');
+            editJumlah.classList.remove('border-red-500');
 
-    window.closeEditModal = function () {
-        modal.classList.add("hidden");
-    };
-
-    // validasi stok negatif
-    if (form) {
-        form.addEventListener("submit", function (e) {
-            editJumlahError.classList.add("hidden");
-            editJumlah.classList.remove("border-red-500");
-
-            if (+editJumlah.value < 0) {
+            if (editJumlah.value < 0) {
                 e.preventDefault();
                 editJumlahError.textContent = "Jumlah stok tidak boleh negatif!";
                 editJumlahError.classList.remove("hidden");
@@ -89,8 +93,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        editJumlah?.addEventListener("input", function () {
-            if (+editJumlah.value < 0) {
+        editJumlah.addEventListener("input", function() {
+            if (editJumlah.value < 0) {
                 editJumlahError.textContent = "Jumlah stok tidak boleh negatif!";
                 editJumlahError.classList.remove("hidden");
                 editJumlah.classList.add("border-red-500");
@@ -100,59 +104,24 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
-    // ===== Modal Hapus Bahan =====
-    document.querySelectorAll(".btn-delete").forEach(btn => {
-    btn.addEventListener("click", () => {
-        const id = btn.dataset.id;
-        const nama = btn.dataset.nama;
-        const status = btn.dataset.status;
 
-        if (status !== "kadaluarsa") {
-            Swal.fire({
-                icon: 'error',
-                title: 'Tidak Bisa Dihapus',
-                text: `Bahan "${nama}" tidak dapat dihapus karena statusnya = ${status}`,
-                confirmButtonColor: '#d33',
-                confirmButtonText: 'OK'
-            });
-            return;
-        }
+    // ===== Modal Konfirmasi Permintaan =====
+    const formPermintaan = document.querySelector("form[action*='permintaan']");
+    const confirmModal = document.getElementById("confirmModal");
 
-        Swal.fire({
-            title: 'Konfirmasi Hapus',
-            html: `Apakah Anda yakin ingin menghapus <b>${nama}</b>?`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, Hapus!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // bikin form delete otomatis
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = `/bahan/${id}`;
-
-                const csrf = document.createElement('input');
-                csrf.type = 'hidden';
-                csrf.name = '_token';
-                csrf.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-                const method = document.createElement('input');
-                method.type = 'hidden';
-                method.name = '_method';
-                method.value = 'DELETE';
-
-                form.appendChild(csrf);
-                form.appendChild(method);
-                document.body.appendChild(form);
-                form.submit();
-            }
+    if (formPermintaan && confirmModal) {
+        formPermintaan.addEventListener("submit", function(e) {
+            e.preventDefault();
+            confirmModal.classList.remove("hidden");
+            confirmModal.classList.add("flex");
         });
-    });
-});
+    }
 
+    window.closeConfirm = function () {
+        confirmModal.classList.add("hidden");
+    }
 
-
+    window.submitForm = function () {
+        formPermintaan.submit();
+    }
 });
