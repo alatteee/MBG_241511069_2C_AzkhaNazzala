@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // ===== Validasi Login =====
     const loginForm = document.getElementById("loginForm");
 
     if (loginForm) {
@@ -11,8 +12,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const passwordError = document.getElementById("passwordError");
 
             // reset error
-            emailError.classList.add("hidden");
-            passwordError.classList.add("hidden");
+            emailError?.classList.add("hidden");
+            passwordError?.classList.add("hidden");
 
             // cek email
             if (!emailInput.value.trim()) {
@@ -29,12 +30,12 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             if (!valid) {
-                e.preventDefault(); // stop submit kalau ada error
+                e.preventDefault();
             }
         });
     }
 
-    // Modal logout
+    // ===== Modal Logout =====
     const logoutForms = document.querySelectorAll("form[action*='logout']");
     logoutForms.forEach(form => {
         form.addEventListener("submit", function (e) {
@@ -44,4 +45,27 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
+    // ===== Edit Modal Stok Bahan =====
+    const modal = document.getElementById('editModal');
+    const form = document.getElementById('editForm');
+    const editId = document.getElementById('editId');
+    const editNama = document.getElementById('editNama');
+    const editJumlah = document.getElementById('editJumlah');
+
+    // buka modal
+    window.openEditModal = function(id, nama, jumlah) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        editId.value = id;
+        editNama.value = nama;
+        editJumlah.value = jumlah;
+
+        form.action = `/bahan/${id}`;
+    }
+
+    // tutup modal
+    window.closeEditModal = function() {
+        modal.classList.add('hidden');
+    }
 });
