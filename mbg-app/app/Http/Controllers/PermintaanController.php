@@ -14,9 +14,10 @@ class PermintaanController extends Controller
     public function index()
     {
         $permintaan = Permintaan::with('details.bahan')
+    
             ->where('pemohon_id', auth()->id())
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10); // tampil 10 per halaman
 
         return view('permintaan.index', compact('permintaan'));
     }
@@ -66,7 +67,7 @@ class PermintaanController extends Controller
     {
         $permintaan = Permintaan::with('details.bahan', 'pemohon')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10); // tampil 10 data per halaman
 
         return view('admin.permintaan.index', compact('permintaan'));
     }

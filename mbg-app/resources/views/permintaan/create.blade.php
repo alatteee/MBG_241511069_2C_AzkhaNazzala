@@ -5,8 +5,8 @@
 
 @section('content')
     <div class="bg-gray-100 min-h-screen p-6 rounded-2xl">
-        <div class="max-w-5xl mx-auto bg-white p-6 rounded shadow">
-            <h1 class="text-2xl font-bold mb-4">Form Permintaan Bahan</h1>
+        <h1 class="text-2xl font-bold mb-4">Form Permintaan Bahan</h1>
+        <div class="max-w-5xl mx-auto bg-white p-6 rounded shadow text-sm">
 
             {{-- pesan sukses/error --}}
             @if (session('success'))
@@ -94,12 +94,12 @@
                     </tbody>
                 </table>
 
-                <button type="button" onclick="addRow()" class="px-4 py-2 bg-blue-500 text-white rounded mb-4">+ Tambah
+                <button type="button" onclick="addRow()" class="px-4 py-2 bg-[#176B87] text-white rounded mb-4">+ Tambah
                     Bahan</button>
 
                 <div class="flex justify-end">
                     <button type="button" onclick="openConfirmModal()"
-                        class="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700">Simpan Permintaan</button>
+                        class="px-6 py-2 bg-[#176B87] text-white rounded hover:bg-[#86B6F6]">Simpan Permintaan</button>
                 </div>
             </form>
         </div>

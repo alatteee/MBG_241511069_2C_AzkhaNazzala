@@ -18,7 +18,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard/gudang', [DashboardGudangController::class, 'index'])
     ->name('dashboard.gudang');
-    Route::get('/dashboard/dapur', [AuthController::class, 'dapurDashboard'])->name('dashboard.dapur');
+    Route::get('/dashboard/dapur', [App\Http\Controllers\DashboardDapurController::class, 'index'])
+    ->name('dashboard.dapur');
 
     Route::resource('bahan', BahanBakuController::class);
     Route::resource('permintaan', PermintaanController::class);

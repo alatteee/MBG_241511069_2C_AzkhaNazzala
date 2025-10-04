@@ -34,18 +34,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
-
-    // ===== Modal Logout =====
-    const logoutForms = document.querySelectorAll("form[action*='logout']");
-    logoutForms.forEach(form => {
-        form.addEventListener("submit", function (e) {
-            e.preventDefault();
-            if (confirm("Yakin ingin logout?")) {
-                form.submit();
-            }
-        });
-    });
-
     // ==== Modal Edit ====
     const editModal = document.getElementById('editModal');
     const editForm = document.getElementById('editForm');

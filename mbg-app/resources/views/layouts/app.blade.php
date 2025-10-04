@@ -116,9 +116,9 @@
                     class="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300">
                     Batal
                 </button>
-                <form method="POST" action="{{ route('logout') }}">
+                <form id="logoutForm" action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit" class="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600">
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
                         Logout
                     </button>
                 </form>

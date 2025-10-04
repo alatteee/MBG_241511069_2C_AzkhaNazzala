@@ -5,8 +5,9 @@
 
 @section('content')
     <div class="bg-gray-100 min-h-screen p-6 rounded-2xl">
-        <div class="max-w-6xl mx-auto bg-white p-6 rounded shadow">
-            <h1 class="text-2xl font-bold mb-4">Permintaan Bahan dari Dapur</h1>
+        <h1 class="text-2xl font-bold mb-4">Permintaan Bahan dari Dapur</h1>
+        <div class="max-w-6xl mx-auto bg-white p-6 rounded shadow text-sm">
+
 
             @if (session('success'))
                 <div class="mb-4 px-4 py-2 bg-green-100 text-green-700 rounded">
@@ -23,6 +24,7 @@
                         <th class="px-4 py-2">Pemohon</th>
                         <th class="px-4 py-2">Detail</th>
                         <th class="px-4 py-2">Status</th>
+                        <th class="px-4 py-2">Alasan</th>
                         <th class="px-4 py-2">Action</th>
                     </tr>
                 </thead>
@@ -40,38 +42,74 @@
                                     @endforeach
                                 </ul>
                             </td>
+                            <td class="border px-4 py-2 text-xs">
+                                @if ($item->status == 'disetujui')
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                                        Disetujui
+                                    </span>
+                                @elseif ($item->status == 'ditolak')
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                                        Ditolak
+                                    </span>
+                                @else
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">
+                                        Menunggu
+                                    </span>
+                                @endif
+                            </td>
+                            <td class="border px-4 py-2 text-xs">
+                                {{ $item->alasan ?? '-' }} {{-- 🔹 tampilkan alasan jika ada --}}
+                            </td>
                             <td class="border px-4 py-2 text-center">
                                 @if ($item->status == 'menunggu')
-                                    <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded">Menunggu</span>
-                                @elseif ($item->status == 'disetujui')
-                                    <span class="px-2 py-1 bg-green-100 text-green-700 rounded">Disetujui</span>
-                                @elseif ($item->status == 'ditolak')
-                                    <div class="flex flex-col items-center">
-                                        <span class="px-2 py-1 bg-red-100 text-red-700 rounded mb-1">Ditolak</span>
-                                        <small class="text-xs text-gray-600">
-                                            <strong>Alasan:</strong> {{ $item->alasan ?? '-' }}
-                                        </small>
+                                    <div class="flex justify-center space-x-2">
+                                        <form action="{{ route('admin.permintaan.approve', $item->id) }}" method="POST">
+                                            @csrf
+                                            <button type="button" onclick="openApproveModal({{ $item->id }})"
+                                                class="px-2 py-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200 whitespace-nowrap">
+                                                Setujui
+                                            </button>
+                                        </form>
+                                        <button onclick="openRejectModal({{ $item->id }})"
+                                            class="px-2 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200 whitespace-nowrap">
+                                            Tolak
+                                        </button>
                                     </div>
                                 @endif
                             </td>
-                            <td class="border px-4 py-2 text-center">
-                                @if ($item->status == 'menunggu')
-                                    <form action="{{ route('admin.permintaan.approve', $item->id) }}" method="POST"
-                                        class="inline-block">
-                                        @csrf
-                                        <button type="button" onclick="openApproveModal({{ $item->id }})"
-                                            class="px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-                                            Setujui
-                                        </button>
-                                    </form>
 
-                                    <button onclick="openRejectModal({{ $item->id }})"
-                                        class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">Tolak</button>
-                                @endif
-                            </td>
                         </tr>
                     @endforeach
                 </tbody>
+                <div class="flex justify-end mt-6 space-x-2 mb-2">
+                    {{-- Tombol Previous --}}
+                    @if ($permintaan->onFirstPage())
+                        <span class="px-3 py-1 rounded bg-gray-200 text-gray-500">← Prev</span>
+                    @else
+                        <a href="{{ $permintaan->previousPageUrl() }}"
+                            class="px-3 py-1 rounded bg-[#176B87] text-white hover:bg-blue-600">← Prev</a>
+                    @endif
+
+                    {{-- Nomor Halaman --}}
+                    @foreach ($permintaan->getUrlRange(1, $permintaan->lastPage()) as $page => $url)
+                        @if ($page == $permintaan->currentPage())
+                            <span class="px-3 py-1 rounded bg-[#176B87] text-white">{{ $page }}</span>
+                        @else
+                            <a href="{{ $url }}"
+                                class="px-3 py-1 rounded bg-gray-200 text-gray-700 hover:bg-[#176B87] hover:text-white">
+                                {{ $page }}
+                            </a>
+                        @endif
+                    @endforeach
+
+                    {{-- Tombol Next --}}
+                    @if ($permintaan->hasMorePages())
+                        <a href="{{ $permintaan->nextPageUrl() }}"
+                            class="px-3 py-1 rounded bg-[#176B87] text-white hover:bg-blue-600">Next →</a>
+                    @else
+                        <span class="px-3 py-1 rounded bg-gray-200 text-gray-500">Next →</span>
+                    @endif
+                </div>
             </table>
         </div>
     </div>

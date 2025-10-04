@@ -10,6 +10,7 @@ class BahanBakuController extends Controller
     public function index()
     {
         $bahan = BahanBaku::all();
+        $bahan = BahanBaku::orderBy('created_at', 'desc')->paginate(10); // 10 data per halaman
         // update status otomatis
         foreach ($bahan as $item) {
             $item->updateStatus();
